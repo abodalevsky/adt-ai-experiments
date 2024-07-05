@@ -1,0 +1,50 @@
+{
+    "@id": "dtmi:com:example:ControlHub;1",
+    "@type": "Interface",
+    "displayName": "Control Hub",
+    "contents": [
+        {
+            "@type": "Property",
+            "name": "name",
+            "schema": "string",
+            "writable": true,
+            "displayName": "Name",
+            "description": "Name configured by user"
+        },
+        {
+            "@type": "Property",
+            "name": "location",
+            "schema": "string",
+            "writable": true,
+            "displayName": "Location",
+            "description": "Location of the sensor specified by user"
+        },
+        {
+            "@type": "Property",
+            "name": "status",
+            "schema": {
+                "@type": "Enum",
+                "valueSchema": "string",
+                "enumValues": [
+                    {"name": "on", "displayName": "On", "enumValue": "on"},
+                    {"name": "off", "displayName": "Off", "enumValue": "off"},
+                    {"name": "na", "displayName": "N/A", "enumValue": "na"},
+                    {"name": "partial", "displayName": "Partial", "enumValue": "partial"}
+                ]
+            },
+            "writable": true,
+            "displayName": "Status",
+            "description": "Operational status"
+        },
+        {
+            "@type": "Relationship",
+            "name": "connects",
+            "minMultiplicity": 0,
+            "maxMultiplicity": 100,
+            "target": "dtmi:com:example:TermoSensor;1",
+            "displayName": "Connects",
+            "description": "The central unit connects to Termo Sensors"
+        }
+    ],
+    "@context": "dtmi:dtdl:context;2"
+}

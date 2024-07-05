@@ -1,0 +1,12 @@
+ipykernel
+python-dotenv
+azure-identity
+azure-digitaltwins-core
+tenacity
+python-docx
+langchain
+langsmith
+langchainhub
+langchain-openai 
+langchain-experimental
+tiktoken

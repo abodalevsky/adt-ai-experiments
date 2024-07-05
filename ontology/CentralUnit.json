@@ -1,0 +1,25 @@
+{
+    "@id": "dtmi:com:example:CentralUnit;1",
+    "@type": "Interface",
+    "displayName": "Central Unit",
+    "contents": [
+        {
+            "@type": "Property",
+            "name": "name",
+            "schema": "string",
+            "writable": true,
+            "displayName": "Name",
+            "description": "Name configured by user"
+        },
+        {
+            "@type": "Relationship",
+            "name": "connects",
+            "minMultiplicity": 0,
+            "maxMultiplicity": 100,
+            "target": "dtmi:com:example:ControlHub;1",
+            "displayName": "Connects",
+            "description": "The central unit contains Control Hub units"
+        }
+    ],
+    "@context": "dtmi:dtdl:context;2"
+}
