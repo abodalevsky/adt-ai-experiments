@@ -1,0 +1,9 @@
+In Azure Digital Twins, the data model is based on twins (digital representations of real-world entities) and relationships (links between twins). The primary “tables” or collections you can query are:
+
+DigitalTwins: This collection contains the digital twins in your Azure Digital Twins instance. You can query this collection using $dtId to filter by the ID of the digital twin.
+
+Relationships: This collection contains the relationships between digital twins. You can query this collection using $sourceId and $targetId to filter by the source and target of the relationship, respectively.
+
+Models: This collection contains the models that define the types of digital twins and relationships that can exist in your Azure Digital Twins instance. You can query this collection using $metadata.$model to filter by the model of the digital twin or relationship.
+
+Components: If your digital twins have components (defined by a model), you can also query these. The query would look something like SELECT * FROM digitaltwins T WHERE IS_DEFINED(T.ComponentName).
