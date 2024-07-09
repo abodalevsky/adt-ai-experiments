@@ -110,3 +110,47 @@ Please note that you need to replace "Control Hub 1", "Location 1", "on", and "C
 Query to get CentralUnit
 
 SELECT * FROM digitaltwins T WHERE IS_OF_MODEL(T, 'dtmi:com:example:CentralUnit;1')
+
+
+------------------------
+update PropertyYou can update a specific property of a digital twin without affecting other properties by using the `update` method provided by the Azure Digital Twins SDK for Python. Here's an example of how you can do it:
+
+```python
+from azure.digitaltwins.core import DigitalTwinsClient
+from azure.identity import DefaultAzureCredential
+
+# Initialize the Digital Twins client
+credential = DefaultAzureCredential()
+digital_twins_client = DigitalTwinsClient("<your-digital-twins-instance-url>", credential)
+
+# Specify the ID of the digital twin you want to update
+digital_twin_id = "<your-digital-twin-id>"
+
+# Specify the property you want to update and its new value
+property_to_update = "propertyName"
+new_value = "newValue"
+
+# Create a dictionary with the property update
+update = {
+    property_to_update: new_value
+}
+
+# Convert the dictionary to a JSON patch
+json_patch = json.dumps(update)
+
+# Update the digital twin
+response = digital_twins_client.update_digital_twin(digital_twin_id, json_patch)
+
+# Print the response
+print(response)
+```
+
+In this example, replace `<your-digital-twins-instance-url>` with the URL of your Azure Digital Twins instance, `<your-digital-twin-id>` with the ID of the digital twin you want to update, `propertyName` with the name of the property you want to update, and `newValue` with the new value you want to set for that property.
+
+This will only update the specified property and will not affect any other properties of the digital twin. Please make sure to handle any exceptions that might occur during the update operation. 
+
+Remember to install the Azure Digital Twins SDK for Python if you haven't done so already. You can install it using pip:
+
+```bash
+pip install azure-digitaltwins-core
+```
