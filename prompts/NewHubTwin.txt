@@ -1,0 +1,156 @@
+I'm workin with Azure Digital Twin Service and have the following models:
+Central Unit defiend as 
+{
+    "@id": "dtmi:com:example:CentralUnit;1",
+    "@type": "Interface",
+    "displayName": "Central Unit",
+    "contents": [
+        {
+            "@type": "Property",
+            "name": "name",
+            "schema": "string",
+            "writable": true,
+            "displayName": "Name",
+            "description": "Name configured by user"
+        },
+        {
+            "@type": "Relationship",
+            "name": "connects",
+            "minMultiplicity": 0,
+            "maxMultiplicity": 100,
+            "target": "dtmi:com:example:ControlHub;1",
+            "displayName": "Connects",
+            "description": "The central unit contains Control Hub units"
+        }
+    ],
+    "@context": "dtmi:dtdl:context;2"
+}
+
+
+and Control Hub defined as 
+{
+    "@id": "dtmi:com:example:ControlHub;1",
+    "@type": "Interface",
+    "displayName": "Control Hub",
+    "contents": [
+        {
+            "@type": "Property",
+            "name": "name",
+            "schema": "string",
+            "writable": true,
+            "displayName": "Name",
+            "description": "Name configured by user"
+        },
+        {
+            "@type": "Property",
+            "name": "location",
+            "schema": "string",
+            "writable": true,
+            "displayName": "Location",
+            "description": "Location of the sensor specified by user"
+        },
+        {
+            "@type": "Property",
+            "name": "status",
+            "schema": {
+                "@type": "Enum",
+                "valueSchema": "string",
+                "enumValues": [
+                    {"name": "on", "displayName": "On", "enumValue": "on"},
+                    {"name": "off", "displayName": "Off", "enumValue": "off"},
+                    {"name": "na", "displayName": "N/A", "enumValue": "na"},
+                    {"name": "partial", "displayName": "Partial", "enumValue": "partial"}
+                ]
+            },
+            "writable": true,
+            "displayName": "Status",
+            "description": "Operational status"
+        },
+        {
+            "@type": "Relationship",
+            "name": "connects",
+            "minMultiplicity": 0,
+            "maxMultiplicity": 100,
+            "target": "dtmi:com:example:TermoSensor;1",
+            "displayName": "Connects",
+            "description": "The central unit connects to Termo Sensors"
+        }
+    ],
+    "@context": "dtmi:dtdl:context;2"
+}
+
+Now I want you to create definition that I cna send to service thtet definition should create twin for Control Hub and connect it to existed Central Unit.
+
+--------------------
+
+{
+    "$metadata": {
+        "$model": "dtmi:com:example:ControlHub;1"
+    },
+    "name": "Control Hub 1",
+    "location": "Location 1",
+    "status": "on",
+    "connects": [
+        {
+            "$targetId": "CentralUnit1",
+            "$relationshipName": "connects"
+        }
+    ]
+}
+
+In this JSON payload:
+
+- $metadata.$model specifies the model ID of the Digital Twin, which is dtmi:com:example:ControlHub;1 for the Control Hub.
+- name, location, and status are properties of the Control Hub. You can replace "Control Hub 1", "Location 1", and "on" with the actual name, location, and status of your Control Hub.
+- connects is a relationship that connects the Control Hub to the Central Unit. $targetId is the ID of the Central Unit that the Control Hub connects to. You should replace "CentralUnit1" with the actual ID of your Central Unit.
+
+Please note that you need to replace "Control Hub 1", "Location 1", "on", and "CentralUnit1" with the actual values for your scenario. Also, make sure that the Central Unit already exists in your Digital Twins instance before you create this Control Hub. Otherwise, the creation will fail because the target of the relationship does not exist.
+
+------------------------
+Query to get CentralUnit
+
+SELECT * FROM digitaltwins T WHERE IS_OF_MODEL(T, 'dtmi:com:example:CentralUnit;1')
+
+
+------------------------
+update PropertyYou can update a specific property of a digital twin without affecting other properties by using the `update` method provided by the Azure Digital Twins SDK for Python. Here's an example of how you can do it:
+
+```python
+from azure.digitaltwins.core import DigitalTwinsClient
+from azure.identity import DefaultAzureCredential
+
+# Initialize the Digital Twins client
+credential = DefaultAzureCredential()
+digital_twins_client = DigitalTwinsClient("<your-digital-twins-instance-url>", credential)
+
+# Specify the ID of the digital twin you want to update
+digital_twin_id = "<your-digital-twin-id>"
+
+# Specify the property you want to update and its new value
+property_to_update = "propertyName"
+new_value = "newValue"
+
+# Create a dictionary with the property update
+update = {
+    property_to_update: new_value
+}
+
+# Convert the dictionary to a JSON patch
+json_patch = json.dumps(update)
+
+# Update the digital twin
+response = digital_twins_client.update_digital_twin(digital_twin_id, json_patch)
+
+# Print the response
+print(response)
+```
+
+In this example, replace `<your-digital-twins-instance-url>` with the URL of your Azure Digital Twins instance, `<your-digital-twin-id>` with the ID of the digital twin you want to update, `propertyName` with the name of the property you want to update, and `newValue` with the new value you want to set for that property.
+
+This will only update the specified property and will not affect any other properties of the digital twin. Please make sure to handle any exceptions that might occur during the update operation. 
+
+Remember to install the Azure Digital Twins SDK for Python if you haven't done so already. You can install it using pip:
+
+```bash
+pip install azure-digitaltwins-core
+```

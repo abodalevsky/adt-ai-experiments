@@ -1,0 +1,26 @@
+Define models
+-----------------------------------------------------------------------------
+I'm going to use Azure Digital Twins Service.
+I do not need advices how to do it. I want you to cre`te definitions for me.
+
+I want to define my models as follow:
+CentralUnit
+property: name - name configured by user
+
+ControlHub
+property: name - name configured by user
+property: location - location of the sensor specified by user
+property: status - operational status may be [on, off, na, partial]
+
+TermoSensor
+property: name - name configured by user
+property: location - location of the sensor specified by user
+property: temperature - current temperature in given location
+property: status - operational status may be [on, off, na, partial]
+
+The topology of my twins network is as follow.
+CentralUnit - one main unit on network
+ControlHub - each hub connected  to CentralUnit
+TermoSensor - each termosensor connected to ControlHub only connection to one hub is allowed
+
+Please define modules for these 3 models. Please take into account relations between them as stated above. If you think that some main properties are missed feel free to add it.
