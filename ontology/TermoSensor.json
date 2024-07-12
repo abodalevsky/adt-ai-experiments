@@ -23,7 +23,7 @@
             "@type": "Property",
             "name": "temperature",
             "schema": "double",
-            "writable": false,
+            "writable": true,
             "displayName": "Temperature",
             "description": "Current temperature in given location"
         },
