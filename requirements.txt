@@ -10,3 +10,4 @@ langchainhub
 langchain-openai 
 langchain-experimental
 tiktoken
+semantic-kernel
