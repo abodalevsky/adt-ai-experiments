@@ -11,3 +11,4 @@ langchain-openai
 langchain-experimental
 tiktoken
 semantic-kernel
+langgraph
